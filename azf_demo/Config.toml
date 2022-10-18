@@ -1,0 +1,3 @@
+visionApp = "<vision_app>"
+subscriptionKey = "<subscription_key>"
+blobStoreName = "<blob_store_name>"
