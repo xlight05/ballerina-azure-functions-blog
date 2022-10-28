@@ -17,9 +17,7 @@ configurable string visionApp = ?;
 configurable string subscriptionKey = ?;
 configurable string blobStoreName = ?;
 
-listener af:HttpListener ep = new ();
-
-service /reviews on ep {
+service /reviews on new af:HttpListener() {
     resource function post upload(@http:Payload byte[]|error image, string name) returns @af:BlobOutput {path: "images/{Query.name}"} byte[]|error {
         return image;
     }
