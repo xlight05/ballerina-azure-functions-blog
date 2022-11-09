@@ -15,7 +15,7 @@ import ballerina/uuid;
 
 configurable string visionApp = ?;
 configurable string subscriptionKey = ?;
-configurable string blobStoreName = ?;
+configurable string storeAccountName = ?;
 
 service /reviews on new af:HttpListener() {
     resource function post upload(@http:Payload byte[]|error image, string name) returns @af:BlobOutput {path: "images/{Query.name}"} byte[]|error {
@@ -75,7 +75,7 @@ service "on-image" on blobListener {
 
         return {
             id: uuid:createType1AsString(),
-            imageUrl: "https://" + blobStoreName + ".blob.core.windows.net/images/" + name,
+            imageUrl: "https://" + storeAccountName + ".blob.core.windows.net/images/" + name,
             isDog: isDog,
             description: description
         };
@@ -109,7 +109,7 @@ function getImageInsights(byte[] image) returns [boolean, string]|error {
     return [false, ""];
 }
 
-service /dashboard on ep {
+service /dashboard on new af:HttpListener() {
     resource function get .(@af:CosmosDBInput {
                                 connectionStringSetting: "CosmosDBConnection",
                                 databaseName: "reviewdb",
